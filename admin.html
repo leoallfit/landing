@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ALLFIT — Panel de Administración</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f1f5f9; }
+    .input { width:100%; border:1px solid #d1d5db; border-radius:.5rem; padding:.6rem .9rem; font-size:.95rem; color:#111; outline:none; transition: border .15s; }
+    .input:focus { border-color:#104a8e; box-shadow:0 0 0 3px #104a8e22; }
+    .btn { display:inline-block; padding:.65rem 1.4rem; border-radius:.6rem; font-weight:700; font-size:.95rem; cursor:pointer; border:none; transition:.15s; }
+    .btn-primary { background:#104a8e; color:#fff; }
+    .btn-primary:hover { background:#0c3a6e; }
+    .btn-danger  { background:#dc2626; color:#fff; }
+    .btn-danger:hover  { background:#b91c1c; }
+    .btn-ghost   { background:#e2e8f0; color:#374151; }
+    .btn-ghost:hover   { background:#cbd5e1; }
+    .card { background:#fff; border-radius:1rem; padding:1.5rem; box-shadow:0 1px 4px rgba(0,0,0,.08); margin-bottom:1.25rem; }
+    .section-title { font-size:1.1rem; font-weight:800; color:#104a8e; margin-bottom:1rem; padding-bottom:.5rem; border-bottom:2px solid #e8f0fb; }
+    label { display:block; font-size:.82rem; font-weight:700; color:#374151; margin-bottom:.3rem; }
+    .pill { display:inline-flex; align-items:center; gap:.4rem; background:#e8f0fb; color:#104a8e; padding:.3rem .75rem; border-radius:999px; font-size:.8rem; font-weight:600; margin:.2rem; }
+    .pill button { background:none; border:none; cursor:pointer; color:#104a8e; font-size:1rem; line-height:1; padding:0; }
+    textarea.input { resize:vertical; min-height:80px; }
+    .toast { position:fixed; bottom:1.5rem; right:1.5rem; background:#104a8e; color:#fff; padding:.85rem 1.4rem; border-radius:.75rem; font-weight:700; font-size:.9rem; box-shadow:0 4px 20px rgba(0,0,0,.2); z-index:999; display:none; }
+    .tab { padding:.5rem 1rem; border-radius:.5rem; font-weight:700; font-size:.85rem; cursor:pointer; border:none; background:transparent; color:#6b7280; transition:.15s; }
+    .tab.active { background:#104a8e; color:#fff; }
+    #loginScreen { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+    #adminPanel { display:none; }
+    .saving-spinner { display:none; }
+  </style>
+</head>
+<body>
+
+<!-- ── LOGIN ──────────────────────────────────────────────────────────── -->
+<div id="loginScreen">
+  <div style="width:100%;max-width:380px;padding:1.5rem">
+    <div class="card" style="text-align:center;padding:2.5rem 2rem">
+      <div style="font-size:2.5rem;font-weight:900;color:#104a8e;letter-spacing:-1px;margin-bottom:.25rem">ALLFIT</div>
+      <p style="color:#6b7280;font-size:.9rem;margin-bottom:2rem">Panel de Administración</p>
+      <div style="text-align:left;margin-bottom:1rem">
+        <label>Contraseña</label>
+        <input id="pwInput" type="password" class="input" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()" />
+      </div>
+      <button class="btn btn-primary" style="width:100%" onclick="login()">Ingresar</button>
+      <p id="loginError" style="color:#dc2626;font-size:.82rem;margin-top:.75rem;display:none">Contraseña incorrecta.</p>
+    </div>
+    <p style="text-align:center;font-size:.75rem;color:#9ca3af;margin-top:1rem">
+      Acceso restringido · ALLFIT 2025
+    </p>
+  </div>
+</div>
+
+<!-- ── ADMIN PANEL ────────────────────────────────────────────────────── -->
+<div id="adminPanel">
+
+  <!-- Header -->
+  <nav style="background:#104a8e;position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.15)">
+    <div style="max-width:900px;margin:0 auto;padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="color:#fff;font-weight:900;font-size:1.25rem;letter-spacing:-.5px">ALLFIT <span style="opacity:.6;font-size:.85rem;font-weight:500">Admin</span></span>
+      <div style="display:flex;gap:.75rem;align-items:center">
+        <a href="https://leoallfit.github.io/landing/" target="_blank"
+           style="color:#93c5fd;font-size:.82rem;font-weight:600;text-decoration:none">Ver web →</a>
+        <button class="btn btn-ghost" style="padding:.4rem .9rem;font-size:.82rem" onclick="logout()">Salir</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Token setup banner -->
+  <div id="tokenBanner" style="background:#fef3c7;border-bottom:2px solid #fcd34d;padding:.85rem 1.25rem;display:none">
+    <div style="max-width:900px;margin:0 auto;display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+      <span style="font-size:.9rem;color:#92400e">⚠️ <strong>Configurá tu Token de GitHub</strong> para poder guardar cambios directamente.</span>
+      <button class="btn" style="background:#d97706;color:#fff;padding:.4rem .9rem;font-size:.82rem" onclick="showTokenSetup()">Configurar ahora</button>
+    </div>
+  </div>
+
+  <!-- Token setup modal -->
+  <div id="tokenModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center">
+    <div class="card" style="width:100%;max-width:500px;margin:1rem">
+      <div class="section-title">⚙️ Configurar Token de GitHub</div>
+      <p style="font-size:.88rem;color:#4b5563;margin-bottom:1rem;line-height:1.6">
+        El token permite que el panel guarde los cambios directamente en tu web.<br>
+        Solo se guarda en tu navegador, nunca se sube a ningún lado.
+      </p>
+      <p style="font-size:.85rem;color:#374151;font-weight:700;margin-bottom:.5rem">Cómo obtenerlo (1 vez):</p>
+      <ol style="font-size:.83rem;color:#4b5563;padding-left:1.25rem;margin-bottom:1.25rem;line-height:2">
+        <li>Andá a <a href="https://github.com/settings/tokens/new" target="_blank" style="color:#104a8e;font-weight:700">github.com/settings/tokens/new</a></li>
+        <li>Note: <code style="background:#f1f5f9;padding:.1rem .4rem;border-radius:.3rem">ALLFIT Admin</code></li>
+        <li>Expiration: <strong>No expiration</strong></li>
+        <li>Marcá el scope: ✅ <strong>repo</strong></li>
+        <li>Clic en <strong>Generate token</strong> y copialo</li>
+      </ol>
+      <label>Pegá el token acá</label>
+      <input id="tokenInput" type="password" class="input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="margin-bottom:1rem"/>
+      <div style="display:flex;gap:.75rem">
+        <button class="btn btn-primary" onclick="saveToken()">Guardar token</button>
+        <button class="btn btn-ghost" onclick="$('tokenModal').style.display='none'">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div style="max-width:900px;margin:0 auto;padding:1.5rem">
+
+    <!-- Tabs -->
+    <div style="display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.5rem;background:#fff;padding:.5rem;border-radius:.75rem;box-shadow:0 1px 3px rgba(0,0,0,.07)">
+      <button class="tab active" onclick="showTab('marca')">🎨 Marca</button>
+      <button class="tab" onclick="showTab('hero')">🚀 Hero</button>
+      <button class="tab" onclick="showTab('pain')">😤 Problemas</button>
+      <button class="tab" onclick="showTab('about')">👤 Sobre vos</button>
+      <button class="tab" onclick="showTab('steps')">📋 Pasos</button>
+      <button class="tab" onclick="showTab('testimonios')">⭐ Testimonios</button>
+      <button class="tab" onclick="showTab('faq')">❓ FAQ</button>
+      <button class="tab" onclick="showTab('form')">📝 Formulario</button>
+      <button class="tab" onclick="showTab('clave')">🔑 Cambiar clave</button>
+    </div>
+
+    <!-- ── TAB: MARCA ──────────────────────────────────── -->
+    <div id="tab-marca" class="tab-content">
+      <div class="card">
+        <div class="section-title">🎨 Marca y Contacto</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div><label>Nombre de la marca</label><input class="input" id="brand_name" /></div>
+          <div><label>Color principal (hex)</label>
+            <div style="display:flex;gap:.5rem;align-items:center">
+              <input class="input" id="brand_color" style="flex:1"/>
+              <input type="color" id="brand_color_picker" style="width:42px;height:42px;border:2px solid #d1d5db;border-radius:.5rem;cursor:pointer;padding:2px" oninput="document.getElementById('brand_color').value=this.value"/>
+            </div>
+          </div>
+          <div style="grid-column:1/-1"><label>Tagline (texto del footer)</label><input class="input" id="brand_tagline" /></div>
+          <div><label>WhatsApp (vacío = oculto)</label><input class="input" id="contact_whatsapp" placeholder="5493515000000"/></div>
+          <div><label>Instagram (sin @)</label><input class="input" id="contact_instagram"/></div>
+          <div><label>Título SEO (Google)</label><input class="input" id="seo_title"/></div>
+          <div><label>Descripción SEO</label><input class="input" id="seo_description"/></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: HERO ───────────────────────────────────── -->
+    <div id="tab-hero" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">🚀 Sección Hero (pantalla principal)</div>
+        <div style="display:grid;gap:1rem">
+          <div><label>Badge (etiqueta pequeña arriba)</label><input class="input" id="hero_badge"/></div>
+          <div><label>Headline principal</label><input class="input" id="hero_headline"/></div>
+          <div><label>Subline (en azul claro)</label><input class="input" id="hero_subline"/></div>
+          <div><label>Cuerpo (párrafo descriptivo)</label><textarea class="input" id="hero_body"></textarea></div>
+          <div><label>Texto del botón CTA</label><input class="input" id="hero_cta"/></div>
+          <div><label>Nota debajo del botón</label><input class="input" id="hero_ctaNote"/></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: PAIN POINTS ────────────────────────────── -->
+    <div id="tab-pain" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">😤 Pain Points (¿Te suena familiar?)</div>
+        <p style="font-size:.82rem;color:#6b7280;margin-bottom:1rem">Máximo 6. Podés editar el emoji y el texto.</p>
+        <div id="painList" style="display:grid;gap:.75rem"></div>
+        <button class="btn btn-ghost" style="margin-top:1rem;font-size:.85rem" onclick="addPain()">+ Agregar item</button>
+      </div>
+    </div>
+
+    <!-- ── TAB: ABOUT ──────────────────────────────────── -->
+    <div id="tab-about" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">👤 Sobre vos</div>
+        <div style="display:grid;gap:1rem">
+          <div>
+            <label>Foto (URL de imagen)</label>
+            <input class="input" id="about_photo" placeholder="https://... (dejá vacío para usar el emoji)"/>
+            <p style="font-size:.78rem;color:#9ca3af;margin-top:.3rem">Subí tu foto a <a href="https://imgbb.com" target="_blank" style="color:#104a8e">imgbb.com</a> (gratis) y pegá el link directo acá</p>
+          </div>
+          <div><label>Emoji (si no hay foto)</label><input class="input" id="about_photoEmoji" style="max-width:100px"/></div>
+          <div><label>Etiqueta (ej: "Tu entrenador")</label><input class="input" id="about_label"/></div>
+          <div><label>Nombre / Título</label><input class="input" id="about_name"/></div>
+          <div><label>Párrafo 1</label><textarea class="input" id="about_bio1"></textarea></div>
+          <div><label>Párrafo 2</label><textarea class="input" id="about_bio2"></textarea></div>
+          <div>
+            <label>Tags / Credenciales</label>
+            <div id="tagsContainer" style="margin-bottom:.5rem"></div>
+            <div style="display:flex;gap:.5rem">
+              <input class="input" id="newTag" placeholder="Ej: CrossFit" style="max-width:220px"/>
+              <button class="btn btn-ghost" style="font-size:.85rem" onclick="addTag()">+ Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: STEPS ──────────────────────────────────── -->
+    <div id="tab-steps" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">📋 Cómo funciona (3 pasos)</div>
+        <div id="stepsList" style="display:grid;gap:1rem"></div>
+      </div>
+    </div>
+
+    <!-- ── TAB: TESTIMONIOS ────────────────────────────── -->
+    <div id="tab-testimonios" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">⭐ Testimonios / Casos de éxito</div>
+        <div id="testimonialsList" style="display:grid;gap:1.25rem"></div>
+        <button class="btn btn-ghost" style="margin-top:1rem;font-size:.85rem" onclick="addTestimonial()">+ Agregar testimonio</button>
+      </div>
+    </div>
+
+    <!-- ── TAB: FAQ ────────────────────────────────────── -->
+    <div id="tab-faq" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">❓ Preguntas Frecuentes</div>
+        <div id="faqList" style="display:grid;gap:.75rem"></div>
+        <button class="btn btn-ghost" style="margin-top:1rem;font-size:.85rem" onclick="addFaq()">+ Agregar pregunta</button>
+      </div>
+    </div>
+
+    <!-- ── TAB: FORMULARIO ─────────────────────────────── -->
+    <div id="tab-form" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">📝 Textos del Formulario</div>
+        <div style="display:grid;gap:1rem">
+          <div><label>Título</label><input class="input" id="form_title"/></div>
+          <div><label>Nota (debajo del título)</label><input class="input" id="form_note"/></div>
+          <div><label>Texto de urgencia</label><input class="input" id="form_urgency"/></div>
+          <div><label>Texto del botón</label><input class="input" id="form_cta"/></div>
+          <div><label>Texto fino (anti-spam)</label><input class="input" id="form_fine"/></div>
+          <div><label>Intro del mensaje de WhatsApp</label><input class="input" id="form_waIntro"/></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── TAB: CAMBIAR CLAVE ──────────────────────────── -->
+    <div id="tab-clave" class="tab-content" style="display:none">
+      <div class="card">
+        <div class="section-title">🔑 Cambiar contraseña del panel</div>
+        <div style="max-width:380px;display:grid;gap:1rem">
+          <div><label>Contraseña actual</label><input type="password" class="input" id="pw_current"/></div>
+          <div><label>Nueva contraseña</label><input type="password" class="input" id="pw_new"/></div>
+          <div><label>Repetir nueva contraseña</label><input type="password" class="input" id="pw_confirm"/></div>
+          <button class="btn btn-primary" onclick="changePassword()">Cambiar contraseña</button>
+          <p id="pwMsg" style="font-size:.85rem;display:none"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Save bar -->
+    <div style="position:sticky;bottom:1.25rem;display:flex;justify-content:flex-end;gap:.75rem;padding-top:.5rem">
+      <button class="btn btn-primary" style="padding:.75rem 2rem;font-size:1rem;box-shadow:0 4px 16px rgba(16,74,142,.35)" onclick="saveChanges()">
+        💾 Guardar cambios
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Hash SHA-256
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str))
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('')
+}
+
+// ── Storage helpers
+const HASH_KEY  = 'allfit_pw_hash'
+const TOKEN_KEY = 'allfit_gh_token'
+const REPO      = 'leoallfit/landing'
+const FILE_PATH = 'index.html'
+
+const DEFAULT_HASH = '84ff852c48f6c8872f53a2ce2fa7d9a7e56c28ca962ab1e28a57656f61be3116'
+
+function getHash()  { return localStorage.getItem(HASH_KEY)  || DEFAULT_HASH }
+function getToken() { return localStorage.getItem(TOKEN_KEY) || '' }
+
+// ── Login
+async function login() {
+  const pw = document.getElementById('pwInput').value
+  const h  = await sha256(pw)
+  if (h === getHash()) {
+    document.getElementById('loginScreen').style.display = 'none'
+    document.getElementById('adminPanel').style.display  = 'block'
+    loadConfig()
+    if (!getToken()) showTokenBanner()
+  } else {
+    document.getElementById('loginError').style.display = 'block'
+  }
+}
+
+function logout() {
+  document.getElementById('loginScreen').style.display = 'flex'
+  document.getElementById('adminPanel').style.display  = 'none'
+  document.getElementById('pwInput').value = ''
+}
+
+// ── Token setup
+function showTokenBanner() { document.getElementById('tokenBanner').style.display = 'block' }
+function showTokenSetup()  { document.getElementById('tokenModal').style.display  = 'flex'  }
+function saveToken() {
+  const t = document.getElementById('tokenInput').value.trim()
+  if (!t) return toast('Pegá el token primero', true)
+  localStorage.setItem(TOKEN_KEY, t)
+  document.getElementById('tokenModal').style.display = 'none'
+  document.getElementById('tokenBanner').style.display = 'none'
+  toast('Token guardado ✓')
+}
+
+// ── Tabs
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display='none')
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'))
+  document.getElementById('tab-'+name).style.display = 'block'
+  event.target.classList.add('active')
+}
+
+// ── Toast
+function toast(msg, err=false) {
+  const t = document.getElementById('toast')
+  t.textContent = msg
+  t.style.background = err ? '#dc2626' : '#104a8e'
+  t.style.display = 'block'
+  setTimeout(()=>t.style.display='none', 3000)
+}
+
+// ── Load CONFIG from landing page
+let CONFIG = {}
+async function loadConfig() {
+  try {
+    const token = getToken()
+    const headers = token ? { Authorization: 'token '+token } : {}
+    const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, { headers })
+    const data = await res.json()
+    const html = atob(data.content.replace(/\n/g,''))
+    const match = html.match(/const CONFIG = (\{[\s\S]*?\})\s*<\/script>/)
+    if (!match) return toast('No se pudo leer la configuración', true)
+    CONFIG = eval('('+match[1]+')')
+    populateFields()
+    toast('Configuración cargada ✓')
+  } catch(e) {
+    toast('Error al leer la web. Verificá el token.', true)
+    console.error(e)
+  }
+}
+
+// ── Populate all form fields from CONFIG
+function populateFields() {
+  const set = (id, val) => { const el = document.getElementById(id); if(el) el.value = val ?? '' }
+
+  // Marca
+  set('brand_name',        CONFIG.brand?.name)
+  set('brand_tagline',     CONFIG.brand?.tagline)
+  set('brand_color',       CONFIG.brand?.color)
+  document.getElementById('brand_color_picker').value = CONFIG.brand?.color || '#104a8e'
+  set('contact_whatsapp',  CONFIG.contact?.whatsapp)
+  set('contact_instagram', CONFIG.contact?.instagram)
+  set('seo_title',         CONFIG.seo?.title)
+  set('seo_description',   CONFIG.seo?.description)
+
+  // Hero
+  set('hero_badge',    CONFIG.hero?.badge)
+  set('hero_headline', CONFIG.hero?.headline)
+  set('hero_subline',  CONFIG.hero?.subline)
+  set('hero_body',     CONFIG.hero?.body)
+  set('hero_cta',      CONFIG.hero?.cta)
+  set('hero_ctaNote',  CONFIG.hero?.ctaNote)
+
+  // About
+  set('about_photo',       CONFIG.about?.photo)
+  set('about_photoEmoji',  CONFIG.about?.photoEmoji)
+  set('about_label',       CONFIG.about?.label)
+  set('about_name',        CONFIG.about?.name)
+  set('about_bio1',        CONFIG.about?.bio1)
+  set('about_bio2',        CONFIG.about?.bio2)
+  renderTags(CONFIG.about?.tags || [])
+
+  // Steps
+  renderSteps(CONFIG.steps || [])
+
+  // Pain points
+  renderPain(CONFIG.painPoints || [])
+
+  // Testimonials
+  renderTestimonials(CONFIG.testimonials || [])
+
+  // FAQ
+  renderFaq(CONFIG.faq || [])
+
+  // Form
+  set('form_title',   CONFIG.form?.title)
+  set('form_note',    CONFIG.form?.note)
+  set('form_urgency', CONFIG.form?.urgency)
+  set('form_cta',     CONFIG.form?.cta)
+  set('form_fine',    CONFIG.form?.fine)
+  set('form_waIntro', CONFIG.form?.waIntro)
+}
+
+// ── Render dynamic lists
+function renderPain(items) {
+  document.getElementById('painList').innerHTML = items.map((p,i) => `
+    <div style="display:flex;gap:.75rem;align-items:center;background:#f8fafc;padding:.75rem;border-radius:.6rem;border:1px solid #e2e8f0">
+      <input class="input" id="pain_icon_${i}" value="${p.icon}" style="width:60px;text-align:center;font-size:1.25rem"/>
+      <input class="input" id="pain_text_${i}" value="${p.text.replace(/"/g,'&quot;')}" style="flex:1"/>
+      <button class="btn btn-danger" style="padding:.4rem .7rem;font-size:.8rem" onclick="removePain(${i})">✕</button>
+    </div>`).join('')
+}
+
+function addPain() {
+  CONFIG.painPoints.push({ icon:'💡', text:'Nuevo problema' })
+  renderPain(CONFIG.painPoints)
+}
+function removePain(i) {
+  CONFIG.painPoints.splice(i,1)
+  renderPain(CONFIG.painPoints)
+}
+
+function renderSteps(items) {
+  document.getElementById('stepsList').innerHTML = items.map((s,i) => `
+    <div style="background:#f8fafc;padding:1rem;border-radius:.6rem;border:1px solid #e2e8f0">
+      <div style="display:flex;gap:.5rem;margin-bottom:.6rem;align-items:center">
+        <span style="background:#104a8e;color:#fff;border-radius:999px;padding:.2rem .7rem;font-weight:900;font-size:.85rem">${s.n}</span>
+        <input class="input" id="step_title_${i}" value="${s.title.replace(/"/g,'&quot;')}" style="flex:1;font-weight:700"/>
+      </div>
+      <textarea class="input" id="step_desc_${i}" style="min-height:60px">${s.desc}</textarea>
+    </div>`).join('')
+}
+
+function renderTestimonials(items) {
+  document.getElementById('testimonialsList').innerHTML = items.map((t,i) => `
+    <div style="background:#f8fafc;padding:1rem;border-radius:.6rem;border:1px solid #e2e8f0">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem">
+        <span style="font-weight:800;color:#104a8e">Testimonio ${i+1}</span>
+        <button class="btn btn-danger" style="padding:.3rem .7rem;font-size:.78rem" onclick="removeTestimonial(${i})">✕ Eliminar</button>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+        <div>
+          <label>Foto URL (opcional)</label>
+          <input class="input" id="t_photo_${i}" value="${t.photo||''}" placeholder="https://..."/>
+          <p style="font-size:.75rem;color:#9ca3af;margin-top:.2rem">Subí a <a href="https://imgbb.com" target="_blank" style="color:#104a8e">imgbb.com</a></p>
+        </div>
+        <div><label>Emoji (si no hay foto)</label><input class="input" id="t_emoji_${i}" value="${t.emoji||'💪'}" style="max-width:80px"/></div>
+        <div><label>Nombre y edad</label><input class="input" id="t_name_${i}" value="${t.name.replace(/"/g,'&quot;')}"/></div>
+        <div><label>Resultado</label><input class="input" id="t_result_${i}" value="${t.result.replace(/"/g,'&quot;')}"/></div>
+        <div style="grid-column:1/-1"><label>Cita / Testimonio</label><textarea class="input" id="t_quote_${i}">${t.quote}</textarea></div>
+      </div>
+    </div>`).join('')
+}
+
+function addTestimonial() {
+  CONFIG.testimonials.push({ photo:'', emoji:'💪', name:'Nombre, Edad', result:'Resultado', quote:'"Testimonio del alumno."' })
+  renderTestimonials(CONFIG.testimonials)
+}
+function removeTestimonial(i) {
+  CONFIG.testimonials.splice(i,1)
+  renderTestimonials(CONFIG.testimonials)
+}
+
+function renderFaq(items) {
+  document.getElementById('faqList').innerHTML = items.map((f,i) => `
+    <div style="background:#f8fafc;padding:.75rem;border-radius:.6rem;border:1px solid #e2e8f0">
+      <div style="display:flex;gap:.5rem;margin-bottom:.5rem">
+        <input class="input" id="faq_q_${i}" value="${f.q.replace(/"/g,'&quot;')}" placeholder="Pregunta" style="flex:1;font-weight:600"/>
+        <button class="btn btn-danger" style="padding:.4rem .7rem;font-size:.8rem" onclick="removeFaq(${i})">✕</button>
+      </div>
+      <textarea class="input" id="faq_a_${i}" style="min-height:60px">${f.a}</textarea>
+    </div>`).join('')
+}
+
+function addFaq() {
+  CONFIG.faq.push({ q:'Nueva pregunta', a:'Respuesta' })
+  renderFaq(CONFIG.faq)
+}
+function removeFaq(i) {
+  CONFIG.faq.splice(i,1)
+  renderFaq(CONFIG.faq)
+}
+
+function renderTags(tags) {
+  document.getElementById('tagsContainer').innerHTML =
+    tags.map((t,i) => `<span class="pill">${t}<button onclick="removeTag(${i})">×</button></span>`).join('')
+}
+
+function addTag() {
+  const inp = document.getElementById('newTag')
+  const val = inp.value.trim()
+  if (!val) return
+  CONFIG.about.tags.push(val)
+  renderTags(CONFIG.about.tags)
+  inp.value = ''
+}
+
+function removeTag(i) {
+  CONFIG.about.tags.splice(i,1)
+  renderTags(CONFIG.about.tags)
+}
+
+// ── Read all fields into CONFIG
+function readFields() {
+  const get = id => { const el=document.getElementById(id); return el ? el.value : '' }
+
+  CONFIG.brand.name      = get('brand_name')
+  CONFIG.brand.tagline   = get('brand_tagline')
+  CONFIG.brand.color     = get('brand_color')
+  CONFIG.brand.colorDark = CONFIG.brand.color  // simplificado
+  CONFIG.contact.whatsapp  = get('contact_whatsapp')
+  CONFIG.contact.instagram = get('contact_instagram')
+  CONFIG.seo.title       = get('seo_title')
+  CONFIG.seo.description = get('seo_description')
+
+  CONFIG.hero.badge    = get('hero_badge')
+  CONFIG.hero.headline = get('hero_headline')
+  CONFIG.hero.subline  = get('hero_subline')
+  CONFIG.hero.body     = get('hero_body')
+  CONFIG.hero.cta      = get('hero_cta')
+  CONFIG.hero.ctaNote  = get('hero_ctaNote')
+
+  CONFIG.about.photo       = get('about_photo')
+  CONFIG.about.photoEmoji  = get('about_photoEmoji')
+  CONFIG.about.label       = get('about_label')
+  CONFIG.about.name        = get('about_name')
+  CONFIG.about.bio1        = get('about_bio1')
+  CONFIG.about.bio2        = get('about_bio2')
+
+  CONFIG.steps = CONFIG.steps.map((_,i) => ({
+    n:     CONFIG.steps[i].n,
+    title: get(`step_title_${i}`),
+    desc:  get(`step_desc_${i}`),
+  }))
+
+  const painCount = document.querySelectorAll('[id^="pain_icon_"]').length
+  CONFIG.painPoints = Array.from({length:painCount},(_,i)=>({
+    icon: get(`pain_icon_${i}`),
+    text: get(`pain_text_${i}`),
+  }))
+
+  const tCount = document.querySelectorAll('[id^="t_name_"]').length
+  CONFIG.testimonials = Array.from({length:tCount},(_,i)=>({
+    photo:  get(`t_photo_${i}`),
+    emoji:  get(`t_emoji_${i}`),
+    name:   get(`t_name_${i}`),
+    result: get(`t_result_${i}`),
+    quote:  get(`t_quote_${i}`),
+  }))
+
+  const faqCount = document.querySelectorAll('[id^="faq_q_"]').length
+  CONFIG.faq = Array.from({length:faqCount},(_,i)=>({
+    q: get(`faq_q_${i}`),
+    a: get(`faq_a_${i}`),
+  }))
+
+  CONFIG.form.title   = get('form_title')
+  CONFIG.form.note    = get('form_note')
+  CONFIG.form.urgency = get('form_urgency')
+  CONFIG.form.cta     = get('form_cta')
+  CONFIG.form.fine    = get('form_fine')
+  CONFIG.form.waIntro = get('form_waIntro')
+}
+
+// ── Save to GitHub
+async function saveChanges() {
+  const token = getToken()
+  if (!token) { showTokenSetup(); return }
+
+  readFields()
+  toast('Guardando...')
+
+  try {
+    // Get current file SHA
+    const headers = { Authorization:'token '+token, 'Content-Type':'application/json' }
+    const meta = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, { headers }).then(r=>r.json())
+    const currentHtml = atob(meta.content.replace(/\n/g,''))
+
+    // Replace CONFIG block
+    const configStr = JSON.stringify(CONFIG, null, 2)
+      .replace(/</g, '\\u003c')
+      .replace(/>/g, '\\u003e')
+
+    const newHtml = currentHtml.replace(
+      /const CONFIG = \{[\s\S]*?\}\s*(?=<\/script>)/,
+      `const CONFIG = ${configStr}\n`
+    )
+
+    // Commit
+    const body = JSON.stringify({
+      message: 'Panel admin: actualización de contenido',
+      content: btoa(unescape(encodeURIComponent(newHtml))),
+      sha: meta.sha,
+    })
+
+    const res = await fetch(`https://api.github.com/repos/${REPO}/contents/${FILE_PATH}`, {
+      method: 'PUT', headers, body
+    })
+
+    if (res.ok) {
+      toast('✅ Guardado. La web se actualiza en ~30 segundos.')
+    } else {
+      const err = await res.json()
+      toast('Error: ' + (err.message||'desconocido'), true)
+    }
+  } catch(e) {
+    toast('Error de conexión: ' + e.message, true)
+  }
+}
+
+// ── Change password
+async function changePassword() {
+  const curr    = document.getElementById('pw_current').value
+  const newPw   = document.getElementById('pw_new').value
+  const confirm = document.getElementById('pw_confirm').value
+  const msg     = document.getElementById('pwMsg')
+
+  const currHash = await sha256(curr)
+  if (currHash !== getHash()) {
+    msg.style.color='#dc2626'; msg.textContent='Contraseña actual incorrecta.'; msg.style.display='block'; return
+  }
+  if (newPw.length < 6) {
+    msg.style.color='#dc2626'; msg.textContent='La nueva contraseña debe tener al menos 6 caracteres.'; msg.style.display='block'; return
+  }
+  if (newPw !== confirm) {
+    msg.style.color='#dc2626'; msg.textContent='Las contraseñas no coinciden.'; msg.style.display='block'; return
+  }
+  const newHash = await sha256(newPw)
+  localStorage.setItem(HASH_KEY, newHash)
+  msg.style.color='#16a34a'; msg.textContent='✅ Contraseña actualizada.'; msg.style.display='block'
+  document.getElementById('pw_current').value = ''
+  document.getElementById('pw_new').value = ''
+  document.getElementById('pw_confirm').value = ''
+}
+
+// helper shorthand
+function $(id) { return document.getElementById(id) }
+</script>
+</body>
+</html>

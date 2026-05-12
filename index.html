@@ -18,132 +18,155 @@
 <body class="bg-white text-gray-900">
 
 <!-- ============================================================
-     ██████╗  ██████╗  ███╗  ██╗███████╗██╗ ██████╗
-    ██╔════╝ ██╔═══██╗ ████╗ ██║██╔════╝██║██╔════╝
-    ██║      ██║   ██║ ██╔██╗██║█████╗  ██║██║  ███╗
-    ██║      ██║   ██║ ██║╚████║██╔══╝  ██║██║   ██║
-    ╚██████╗ ╚██████╔╝ ██║ ╚███║██║     ██║╚██████╔╝
-     ╚═════╝  ╚═════╝  ╚═╝  ╚══╝╚═╝     ╚═╝ ╚═════╝
+     âââââââ  âââââââ  ââââ  ââââââââââââââ âââââââ
+    ââââââââ âââââââââ âââââ ââââââââââââââââââââââ
+    âââ      âââ   âââ âââââââââââââââ  ââââââ  ââââ
+    âââ      âââ   âââ âââââââââââââââ  ââââââ   âââ
+    ââââââââ âââââââââ âââ ââââââââ     ââââââââââââ
+     âââââââ  âââââââ  âââ  âââââââ     âââ âââââââ
 
-  ZONA DE CONFIGURACIÓN — editá solo este bloque
-  Todo lo demás se actualiza automáticamente.
+  ZONA DE CONFIGURACIÃN â editÃ¡ solo este bloque
+  Todo lo demÃ¡s se actualiza automÃ¡ticamente.
 ================================================================ -->
 <script>
 const CONFIG = {
-
-  // ── MARCA ──────────────────────────────────────────────────
-  brand: {
-    name:      "ALLFIT",               // nombre que aparece en nav y footer
-    tagline:   "Entrenamiento online para hombres que van en serio.",
-    color:     "#104a8e",              // color principal (azul)
-    colorDark: "#0c3a6e",              // versión oscura para gradientes/footer
+  "brand": {
+    "name": "ALLFI",
+    "tagline": "Entrenamiento online para hombres que van en serio.",
+    "color": "#104a8e",
+    "colorDark": "#104a8e"
   },
-
-  // ── SEO ────────────────────────────────────────────────────
-  seo: {
-    title:       "ALLFIT — Entrenamiento Online para Hombres",
-    description: "Entrenamiento y nutrición 100% personalizado para hombres +25 que quieren ganar masa muscular de verdad.",
+  "seo": {
+    "title": "ALLFIT â Entrenamiento Online para Hombres",
+    "description": "Entrenamiento y nutriciÃ³n 100% personalizado para hombres +25 que quieren ganar masa muscular de verdad."
   },
-
-  // ── CONTACTO ───────────────────────────────────────────────
-  contact: {
-    whatsapp:  "",                     // ej: "5493515000000" — dejalo vacío si no querés mostrarlo
-    instagram: "leo.allfit",           // sin el @
+  "contact": {
+    "whatsapp": "",
+    "instagram": "leo.allfit"
   },
-
-  // ── HERO ───────────────────────────────────────────────────
-  hero: {
-    badge:    "Entrenamiento Online · Hombres +25",
-    headline: "Construí el cuerpo que querés.",
-    subline:  "Sin excusas. Sin vueltas.",     // frase azul claro abajo del headline
-    body:     "Entrenamiento y nutrición 100% personalizado para hombres que quieren ganar masa muscular de verdad, sin perder tiempo en métodos genéricos.",
-    cta:      "Quiero empezar ahora →",
-    ctaNote:  "Cupos limitados. Completá el formulario y te contacto.",
+  "hero": {
+    "badge": "Entrenamiento Online Â· Hombres +25",
+    "headline": "ConstruÃ­ el cuerpo que querÃ©s.",
+    "subline": "Sin excusas. Sin vueltas.",
+    "body": "Entrenamiento y nutriciÃ³n 100% personalizado para hombres que quieren ganar masa muscular de verdad, sin perder tiempo en mÃ©todos genÃ©ricos.",
+    "cta": "Quiero empezar ahora â",
+    "ctaNote": "Cupos limitados. CompletÃ¡ el formulario y te contacto."
   },
-
-  // ── PAIN POINTS ────────────────────────────────────────────
-  // Podés editar texto o cambiar el emoji. Máximo 6 items.
-  painPoints: [
-    { icon: "😤", text: "Entrenás hace meses y no ves resultados reales en el espejo" },
-    { icon: "📱", text: "Seguiste mil rutinas de YouTube o Instagram y ninguna funcionó" },
-    { icon: "🍕", text: "No sabés qué comer para ganar músculo sin engordar" },
-    { icon: "⏱️", text: "No tenés tiempo para ir al gimnasio todos los días" },
-    { icon: "😕", text: "Llegaste a los 25-30 y notás que tu cuerpo ya no responde igual" },
-    { icon: "💸", text: "Gastaste en suplementos que no sirvieron de nada" },
-  ],
-
-  // ── SOBRE VOS ──────────────────────────────────────────────
-  about: {
-    // Foto: pegá una URL de imagen (ej. de Drive, Cloudinary, etc.)
-    // Si la dejás vacía se muestra el emoji de abajo.
-    photo:       "",
-    photoEmoji:  "💪",                 // se usa si photo está vacío
-    label:       "Tu entrenador",
-    name:        "Hola, soy Leo de ALLFIT",
-    bio1:        "Soy entrenador especializado en hipertrofia y transformación física para hombres mayores de 25 años. Sé lo que es querer cambiar tu cuerpo y no saber por dónde empezar, o peor — empezar mil veces y no llegar a ningún lado.",
-    bio2:        "Trabajo con planes de entrenamiento y nutrición completamente personalizados, seguimiento semanal y acceso directo conmigo. Sin templates genéricos. Sin excusas.",
-    tags:        ["Hipertrofia", "Nutrición deportiva", "Fuerza", "+50 alumnos transformados"],
-  },
-
-  // ── CÓMO FUNCIONA ──────────────────────────────────────────
-  steps: [
-    { n: "01", title: "Completás el formulario",    desc: "Contame tu situación actual, objetivos y disponibilidad. Me permite entender si puedo ayudarte." },
-    { n: "02", title: "Hacemos una llamada inicial", desc: "Charlamos 20 minutos para entender tu caso y definir el plan. Sin compromiso." },
-    { n: "03", title: "Arrancás con tu plan",        desc: "Recibís tu rutina + plan de nutrición personalizados y empezamos el seguimiento semanal." },
-  ],
-
-  // ── CASOS DE ÉXITO / TESTIMONIOS ───────────────────────────
-  // photo: URL de imagen (antes/después, retrato, etc.) — vacío = emoji
-  testimonials: [
+  "painPoints": [
     {
-      photo:  "",
-      emoji:  "🏋️",
-      name:   "Martín, 28 años",
-      result: "+8 kg de músculo en 5 meses",
-      quote:  "\"Llevaba 2 años yendo al gym sin resultados. Con Leo en 5 meses cambié completamente. El seguimiento es otro nivel.\"",
+      "icon": "ð¤",
+      "text": "EntrenÃ¡s hace meses y no ves resultados reales en el espejo"
     },
     {
-      photo:  "",
-      emoji:  "💪",
-      name:   "Facundo, 32 años",
-      result: "Bajó 12% de grasa manteniendo músculo",
-      quote:  "\"Lo que más me sorprendió fue la nutrición. Nunca pensé que comer bien podía ser así de simple con el plan correcto.\"",
+      "icon": "ð±",
+      "text": "Seguiste mil rutinas de YouTube o Instagram y ninguna funcionÃ³"
     },
     {
-      photo:  "",
-      emoji:  "🔥",
-      name:   "Diego, 27 años",
-      result: "De cero a levantar 100kg en press",
-      quote:  "\"Empecé sin saber nada. La progresión fue real semana a semana. El acceso directo a Leo marca la diferencia.\"",
+      "icon": "ð",
+      "text": "No sabÃ©s quÃ© comer para ganar mÃºsculo sin engordar"
     },
+    {
+      "icon": "â±ï¸",
+      "text": "No tenÃ©s tiempo para ir al gimnasio todos los dÃ­as"
+    },
+    {
+      "icon": "ð",
+      "text": "Llegaste a los 25-30 y notÃ¡s que tu cuerpo ya no responde igual"
+    },
+    {
+      "icon": "ð¸",
+      "text": "Gastaste en suplementos que no sirvieron de nada"
+    }
   ],
-
-  // ── FAQ ────────────────────────────────────────────────────
-  faq: [
-    { q: "¿Necesito tener experiencia previa en el gym?",  a: "No. Trabajo con todos los niveles, desde principiantes hasta intermedios. El plan se adapta exactamente a donde estás hoy." },
-    { q: "¿Cuántas veces por semana tengo que entrenar?",  a: "Según tu disponibilidad. Diseño planes de 3, 4 o 5 días. Lo importante es la consistencia, no la cantidad." },
-    { q: "¿Qué incluye el seguimiento semanal?",           a: "Revisión de progreso, ajuste de cargas, feedback de tu nutrición y acceso directo por WhatsApp para cualquier consulta." },
-    { q: "¿Puedo entrenar en casa o solo en gym?",         a: "Los dos. Armo planes para gym y para casa con el equipamiento que tengas disponible." },
-    { q: "¿Cuánto tarda en verse resultados?",             a: "Los primeros cambios se notan entre 4 y 6 semanas. Resultados sólidos y medibles entre los 3 y 5 meses según el punto de partida." },
-  ],
-
-  // ── FORMULARIO ─────────────────────────────────────────────
-  form: {
-    title:   "Quiero empezar",
-    note:    "Completá este formulario y te contacto en menos de 24 horas.",
-    urgency: "Cupos limitados.",
-    cta:     "Quiero mi plan personalizado →",
-    fine:    "Sin spam. Te contacto solo para hablar de tu caso.",
-    // Mensaje que se arma en WhatsApp al enviar
-    waIntro: "Hola Leo! Completé el formulario de ALLFIT.",
+  "about": {
+    "photo": "",
+    "photoEmoji": "ðª",
+    "label": "Tu entrenador",
+    "name": "Hola, soy Leo de ALLFIT",
+    "bio1": "Soy entrenador especializado en hipertrofia y transformaciÃ³n fÃ­sica para hombres mayores de 25 aÃ±os. SÃ© lo que es querer cambiar tu cuerpo y no saber por dÃ³nde empezar, o peor â empezar mil veces y no llegar a ningÃºn lado.",
+    "bio2": "Trabajo con planes de entrenamiento y nutriciÃ³n completamente personalizados, seguimiento semanal y acceso directo conmigo. Sin templates genÃ©ricos. Sin excusas.",
+    "tags": [
+      "Hipertrofia",
+      "NutriciÃ³n deportiva",
+      "Fuerza",
+      "+50 alumnos transformados"
+    ]
   },
-
-  // ── AÑO DEL COPYRIGHT ──────────────────────────────────────
-  year: "2025",
+  "steps": [
+    {
+      "n": "01",
+      "title": "CompletÃ¡s el formulario",
+      "desc": "Contame tu situaciÃ³n actual, objetivos y disponibilidad. Me permite entender si puedo ayudarte."
+    },
+    {
+      "n": "02",
+      "title": "Hacemos una llamada inicial",
+      "desc": "Charlamos 20 minutos para entender tu caso y definir el plan. Sin compromiso."
+    },
+    {
+      "n": "03",
+      "title": "ArrancÃ¡s con tu plan",
+      "desc": "RecibÃ­s tu rutina + plan de nutriciÃ³n personalizados y empezamos el seguimiento semanal."
+    }
+  ],
+  "testimonials": [
+    {
+      "photo": "",
+      "emoji": "ðï¸",
+      "name": "MartÃ­n, 28 aÃ±os",
+      "result": "+8 kg de mÃºsculo en 5 meses",
+      "quote": "\"Llevaba 2 aÃ±os yendo al gym sin resultados. Con Leo en 5 meses cambiÃ© completamente. El seguimiento es otro nivel.\""
+    },
+    {
+      "photo": "",
+      "emoji": "ðª",
+      "name": "Facundo, 32 aÃ±os",
+      "result": "BajÃ³ 12% de grasa manteniendo mÃºsculo",
+      "quote": "\"Lo que mÃ¡s me sorprendiÃ³ fue la nutriciÃ³n. Nunca pensÃ© que comer bien podÃ­a ser asÃ­ de simple con el plan correcto.\""
+    },
+    {
+      "photo": "",
+      "emoji": "ð¥",
+      "name": "Diego, 27 aÃ±os",
+      "result": "De cero a levantar 100kg en press",
+      "quote": "\"EmpecÃ© sin saber nada. La progresiÃ³n fue real semana a semana. El acceso directo a Leo marca la diferencia.\""
+    }
+  ],
+  "faq": [
+    {
+      "q": "Â¿Necesito tener experiencia previa en el gym?",
+      "a": "No. Trabajo con todos los niveles, desde principiantes hasta intermedios. El plan se adapta exactamente a donde estÃ¡s hoy."
+    },
+    {
+      "q": "Â¿CuÃ¡ntas veces por semana tengo que entrenar?",
+      "a": "SegÃºn tu disponibilidad. DiseÃ±o planes de 3, 4 o 5 dÃ­as. Lo importante es la consistencia, no la cantidad."
+    },
+    {
+      "q": "Â¿QuÃ© incluye el seguimiento semanal?",
+      "a": "RevisiÃ³n de progreso, ajuste de cargas, feedback de tu nutriciÃ³n y acceso directo por WhatsApp para cualquier consulta."
+    },
+    {
+      "q": "Â¿Puedo entrenar en casa o solo en gym?",
+      "a": "Los dos. Armo planes para gym y para casa con el equipamiento que tengas disponible."
+    },
+    {
+      "q": "Â¿CuÃ¡nto tarda en verse resultados?",
+      "a": "Los primeros cambios se notan entre 4 y 6 semanas. Resultados sÃ³lidos y medibles entre los 3 y 5 meses segÃºn el punto de partida."
+    }
+  ],
+  "form": {
+    "title": "Quiero empezar",
+    "note": "CompletÃ¡ este formulario y te contacto en menos de 24 horas.",
+    "urgency": "Cupos limitados.",
+    "cta": "Quiero mi plan personalizado â",
+    "fine": "Sin spam. Te contacto solo para hablar de tu caso.",
+    "waIntro": "Hola Leo! CompletÃ© el formulario de ALLFIT."
+  },
+  "year": "2025"
 }
 </script>
 <!-- ============================================================
-  FIN DE CONFIGURACIÓN — no hace falta tocar nada abajo
+  FIN DE CONFIGURACIÃN â no hace falta tocar nada abajo
 ================================================================ -->
 
 <!-- NAV -->
@@ -155,8 +178,8 @@ const CONFIG = {
 <!-- PAIN POINTS -->
 <section id="pain" class="py-16 px-5 bg-gray-50">
   <div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">¿Te suena familiar?</h2>
-    <p class="text-center text-gray-500 mb-10">Si dijiste sí a alguna de estas, estás en el lugar correcto.</p>
+    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">Â¿Te suena familiar?</h2>
+    <p class="text-center text-gray-500 mb-10">Si dijiste sÃ­ a alguna de estas, estÃ¡s en el lugar correcto.</p>
     <div id="painGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
   </div>
 </section>
@@ -172,7 +195,7 @@ const CONFIG = {
 <!-- HOW IT WORKS -->
 <section id="steps" class="py-16 px-5">
   <div class="max-w-4xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">Así funciona</h2>
+    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">AsÃ­ funciona</h2>
     <p class="text-center text-gray-500 mb-12">Simple. Sin vueltas.</p>
     <div id="stepsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
   </div>
@@ -191,7 +214,7 @@ const CONFIG = {
 <section id="faqSection" class="py-16 px-5 bg-gray-50">
   <div class="max-w-3xl mx-auto">
     <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">Preguntas frecuentes</h2>
-    <p class="text-center text-gray-500 mb-10">Todo lo que querés saber antes de arrancar.</p>
+    <p class="text-center text-gray-500 mb-10">Todo lo que querÃ©s saber antes de arrancar.</p>
     <div id="faqList" class="space-y-3"></div>
   </div>
 </section>
@@ -212,36 +235,36 @@ const CONFIG = {
           <input name="age" required type="number" min="18" max="65" placeholder="25" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
         <div>
-          <label class="block text-sm font-bold mb-1 text-gray-700">Días disponibles/sem *</label>
+          <label class="block text-sm font-bold mb-1 text-gray-700">DÃ­as disponibles/sem *</label>
           <select name="days" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-            <option value="">Seleccioná</option>
-            <option>3 días</option><option>4 días</option><option>5 días</option><option>6+ días</option>
+            <option value="">SeleccionÃ¡</option>
+            <option>3 dÃ­as</option><option>4 dÃ­as</option><option>5 dÃ­as</option><option>6+ dÃ­as</option>
           </select>
         </div>
       </div>
       <div>
-        <label class="block text-sm font-bold mb-1 text-gray-700">¿Cuánta experiencia tenés? *</label>
+        <label class="block text-sm font-bold mb-1 text-gray-700">Â¿CuÃ¡nta experiencia tenÃ©s? *</label>
         <select name="experience" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="">Seleccioná</option>
-          <option>Ninguna — empiezo de cero</option>
-          <option>Menos de 1 año</option>
-          <option>1 a 3 años</option>
-          <option>Más de 3 años</option>
+          <option value="">SeleccionÃ¡</option>
+          <option>Ninguna â empiezo de cero</option>
+          <option>Menos de 1 aÃ±o</option>
+          <option>1 a 3 aÃ±os</option>
+          <option>MÃ¡s de 3 aÃ±os</option>
         </select>
       </div>
       <div>
-        <label class="block text-sm font-bold mb-1 text-gray-700">¿Cuál es tu objetivo principal? *</label>
+        <label class="block text-sm font-bold mb-1 text-gray-700">Â¿CuÃ¡l es tu objetivo principal? *</label>
         <select name="goal" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="">Seleccioná</option>
+          <option value="">SeleccionÃ¡</option>
           <option>Ganar masa muscular</option>
-          <option>Ganar músculo y perder grasa</option>
+          <option>Ganar mÃºsculo y perder grasa</option>
           <option>Mejorar fuerza y rendimiento</option>
-          <option>Definición manteniendo músculo</option>
+          <option>DefiniciÃ³n manteniendo mÃºsculo</option>
         </select>
       </div>
       <div>
-        <label class="block text-sm font-bold mb-1 text-gray-700">¿Cuál es tu mayor obstáculo hoy? *</label>
-        <textarea name="obstacle" required rows="3" placeholder="Ej: no sé qué comer, no tengo constancia, no veo resultados..." class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+        <label class="block text-sm font-bold mb-1 text-gray-700">Â¿CuÃ¡l es tu mayor obstÃ¡culo hoy? *</label>
+        <textarea name="obstacle" required rows="3" placeholder="Ej: no sÃ© quÃ© comer, no tengo constancia, no veo resultados..." class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
       </div>
       <div>
         <label class="block text-sm font-bold mb-1 text-gray-700">WhatsApp *</label>
@@ -251,8 +274,8 @@ const CONFIG = {
       <p id="formFine" class="text-center text-xs text-gray-400"></p>
     </form>
     <div id="successMsg" class="hidden rounded-2xl p-8 text-center">
-      <div class="text-5xl mb-4">✅</div>
-      <h3 class="text-xl font-black text-gray-900 mb-2">¡Listo! Te redirigí a WhatsApp.</h3>
+      <div class="text-5xl mb-4">â</div>
+      <h3 class="text-xl font-black text-gray-900 mb-2">Â¡Listo! Te redirigÃ­ a WhatsApp.</h3>
       <p id="successNote" class="text-gray-600"></p>
     </div>
   </div>
@@ -261,7 +284,7 @@ const CONFIG = {
 <!-- FOOTER -->
 <footer id="footer" class="py-8 px-5 text-white text-center"></footer>
 
-<!-- ── RENDER ENGINE ─────────────────────────────────────────────────────── -->
+<!-- ââ RENDER ENGINE âââââââââââââââââââââââââââââââââââââââââââââââââââââââ -->
 <script>
 (function () {
   const C = CONFIG
@@ -278,12 +301,12 @@ const CONFIG = {
     return e
   }
 
-  // ── SEO
+  // ââ SEO
   document.title = C.seo.title
   $('pageTitle').textContent = C.seo.title
   $('pageDesc').setAttribute('content', C.seo.description)
 
-  // ── NAV
+  // ââ NAV
   const waBtn = C.contact.whatsapp
     ? `<a href="https://wa.me/${C.contact.whatsapp}" target="_blank"
          class="flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-3 sm:px-4 py-2 rounded-full transition">
@@ -303,7 +326,7 @@ const CONFIG = {
       </div>
     </div>`
 
-  // ── HERO
+  // ââ HERO
   $('hero').style.background = `linear-gradient(135deg,${B} 0%,${BD} 100%)`
   $('hero').innerHTML = `
     <div class="max-w-3xl mx-auto text-center">
@@ -316,7 +339,7 @@ const CONFIG = {
       <p class="text-sm mt-4" style="color:#93c5fd">${C.hero.ctaNote}</p>
     </div>`
 
-  // ── PAIN POINTS
+  // ââ PAIN POINTS
   $('painGrid').innerHTML = C.painPoints.map(p =>
     `<div class="flex items-start gap-3 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
        <span class="text-2xl">${p.icon}</span>
@@ -324,7 +347,7 @@ const CONFIG = {
      </div>`
   ).join('')
 
-  // ── ABOUT
+  // ââ ABOUT
   const photoHtml = C.about.photo
     ? `<img src="${C.about.photo}" alt="${C.about.name}" class="w-52 h-52 rounded-2xl object-cover" style="border:3px solid ${B}">`
     : `<div class="w-52 h-52 rounded-2xl flex items-center justify-center text-7xl" style="background:${B}15;border:3px solid ${B}">${C.about.photoEmoji}</div>`
@@ -337,7 +360,7 @@ const CONFIG = {
     <div class="flex flex-wrap gap-3">${C.about.tags.map(t =>
       `<span class="tag" style="background:${B}15;color:${B}">${t}</span>`).join('')}</div>`
 
-  // ── STEPS
+  // ââ STEPS
   $('steps').style.background = `${B}0d`
   $('stepsGrid').innerHTML = C.steps.map(s =>
     `<div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
@@ -347,7 +370,7 @@ const CONFIG = {
      </div>`
   ).join('')
 
-  // ── TESTIMONIALS
+  // ââ TESTIMONIALS
   $('testimonialsGrid').innerHTML = C.testimonials.map(t => {
     const mediaHtml = t.photo
       ? `<img src="${t.photo}" alt="${t.name}" class="w-full h-40 object-cover">`
@@ -363,7 +386,7 @@ const CONFIG = {
       </div>`
   }).join('')
 
-  // ── FAQ
+  // ââ FAQ
   $('faqList').innerHTML = C.faq.map((item, i) =>
     `<div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
        <button onclick="toggleFaq(${i})" class="w-full flex items-center justify-between px-5 py-4 text-left">
@@ -374,22 +397,22 @@ const CONFIG = {
      </div>`
   ).join('')
 
-  // ── FORM
+  // ââ FORM
   $('formTitle').textContent = C.form.title
   $('formNote').innerHTML = `${C.form.note}<br><strong class="text-gray-700">${C.form.urgency}</strong>`
   $('formCta').textContent = C.form.cta
   $('formCta').style.background = B
   $('formFine').textContent = C.form.fine
   $('successNote').innerHTML = C.contact.whatsapp
-    ? `Si no se abrió el chat, escribime por Instagram: <strong>@${C.contact.instagram}</strong>`
+    ? `Si no se abriÃ³ el chat, escribime por Instagram: <strong>@${C.contact.instagram}</strong>`
     : `Escribime por Instagram: <strong>@${C.contact.instagram}</strong>`
   $('successMsg').style.background = `${B}10`
   $('successMsg').style.border = `2px solid ${B}`
 
-  // ── FOOTER
+  // ââ FOOTER
   $('footer').style.background = BD
   const waFooter = C.contact.whatsapp
-    ? `<a href="https://wa.me/${C.contact.whatsapp}" target="_blank" class="text-sm transition hover:text-white" style="color:#93c5fd">WhatsApp</a><span style="color:#60a5fa">·</span>`
+    ? `<a href="https://wa.me/${C.contact.whatsapp}" target="_blank" class="text-sm transition hover:text-white" style="color:#93c5fd">WhatsApp</a><span style="color:#60a5fa">Â·</span>`
     : ''
   $('footer').innerHTML = `
     <p class="font-black text-xl mb-1">${C.brand.name}</p>
@@ -398,10 +421,10 @@ const CONFIG = {
       ${waFooter}
       <a href="https://instagram.com/${C.contact.instagram}" target="_blank" class="text-sm transition hover:text-white" style="color:#93c5fd">@${C.contact.instagram}</a>
     </div>
-    <p class="text-xs mt-4" style="color:#60a5fa">© ${C.year} ${C.brand.name}. Todos los derechos reservados.</p>`
+    <p class="text-xs mt-4" style="color:#60a5fa">Â© ${C.year} ${C.brand.name}. Todos los derechos reservados.</p>`
 })()
 
-// ── FAQ toggle
+// ââ FAQ toggle
 function toggleFaq(i) {
   const items = document.querySelectorAll('#faqList > div')
   const answer = items[i].querySelector('.faq-answer')
@@ -409,10 +432,10 @@ function toggleFaq(i) {
   const wasOpen = answer.classList.contains('open')
   document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'))
   document.querySelectorAll('.faq-icon').forEach(ic => ic.textContent = '+')
-  if (!wasOpen) { answer.classList.add('open'); icon.textContent = '−' }
+  if (!wasOpen) { answer.classList.add('open'); icon.textContent = 'â' }
 }
 
-// ── Form submit
+// ââ Form submit
 function submitForm(e) {
   e.preventDefault()
   const C = CONFIG
@@ -423,9 +446,9 @@ function submitForm(e) {
     '*Edad:* '        + fd.get('age')         + '\n' +
     '*Experiencia:* ' + fd.get('experience')  + '\n' +
     '*Objetivo:* '    + fd.get('goal')        + '\n' +
-    '*Días:* '        + fd.get('days')        + '\n' +
-    '*Obstáculo:* '   + fd.get('obstacle')    + '\n' +
-    '*Teléfono:* '    + fd.get('phone')
+    '*DÃ­as:* '        + fd.get('days')        + '\n' +
+    '*ObstÃ¡culo:* '   + fd.get('obstacle')    + '\n' +
+    '*TelÃ©fono:* '    + fd.get('phone')
   )
   if (C.contact.whatsapp) {
     window.open('https://wa.me/' + C.contact.whatsapp + '?text=' + msg, '_blank')

@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="pageTitle"></title>
+  <meta name="description" id="pageDesc" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    * { box-sizing: border-box; }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; }
+    .faq-answer { display: none; }
+    .faq-answer.open { display: block; }
+    .tag { display:inline-block; font-size:.8rem; font-weight:600; padding:.3rem .75rem; border-radius:999px; }
+  </style>
+</head>
+<body class="bg-white text-gray-900">
+
+<!-- ============================================================
+     ██████╗  ██████╗  ███╗  ██╗███████╗██╗ ██████╗
+    ██╔════╝ ██╔═══██╗ ████╗ ██║██╔════╝██║██╔════╝
+    ██║      ██║   ██║ ██╔██╗██║█████╗  ██║██║  ███╗
+    ██║      ██║   ██║ ██║╚████║██╔══╝  ██║██║   ██║
+    ╚██████╗ ╚██████╔╝ ██║ ╚███║██║     ██║╚██████╔╝
+     ╚═════╝  ╚═════╝  ╚═╝  ╚══╝╚═╝     ╚═╝ ╚═════╝
+
+  ZONA DE CONFIGURACIÓN — editá solo este bloque
+  Todo lo demás se actualiza automáticamente.
+================================================================ -->
+<script>
+const CONFIG = {
+
+  // ── MARCA ──────────────────────────────────────────────────
+  brand: {
+    name:      "ALLFIT",               // nombre que aparece en nav y footer
+    tagline:   "Entrenamiento online para hombres que van en serio.",
+    color:     "#104a8e",              // color principal (azul)
+    colorDark: "#0c3a6e",              // versión oscura para gradientes/footer
+  },
+
+  // ── SEO ────────────────────────────────────────────────────
+  seo: {
+    title:       "ALLFIT — Entrenamiento Online para Hombres",
+    description: "Entrenamiento y nutrición 100% personalizado para hombres +25 que quieren ganar masa muscular de verdad.",
+  },
+
+  // ── CONTACTO ───────────────────────────────────────────────
+  contact: {
+    whatsapp:  "",                     // ej: "5493515000000" — dejalo vacío si no querés mostrarlo
+    instagram: "leo.allfit",           // sin el @
+  },
+
+  // ── HERO ───────────────────────────────────────────────────
+  hero: {
+    badge:    "Entrenamiento Online · Hombres +25",
+    headline: "Construí el cuerpo que querés.",
+    subline:  "Sin excusas. Sin vueltas.",     // frase azul claro abajo del headline
+    body:     "Entrenamiento y nutrición 100% personalizado para hombres que quieren ganar masa muscular de verdad, sin perder tiempo en métodos genéricos.",
+    cta:      "Quiero empezar ahora →",
+    ctaNote:  "Cupos limitados. Completá el formulario y te contacto.",
+  },
+
+  // ── PAIN POINTS ────────────────────────────────────────────
+  // Podés editar texto o cambiar el emoji. Máximo 6 items.
+  painPoints: [
+    { icon: "😤", text: "Entrenás hace meses y no ves resultados reales en el espejo" },
+    { icon: "📱", text: "Seguiste mil rutinas de YouTube o Instagram y ninguna funcionó" },
+    { icon: "🍕", text: "No sabés qué comer para ganar músculo sin engordar" },
+    { icon: "⏱️", text: "No tenés tiempo para ir al gimnasio todos los días" },
+    { icon: "😕", text: "Llegaste a los 25-30 y notás que tu cuerpo ya no responde igual" },
+    { icon: "💸", text: "Gastaste en suplementos que no sirvieron de nada" },
+  ],
+
+  // ── SOBRE VOS ──────────────────────────────────────────────
+  about: {
+    // Foto: pegá una URL de imagen (ej. de Drive, Cloudinary, etc.)
+    // Si la dejás vacía se muestra el emoji de abajo.
+    photo:       "",
+    photoEmoji:  "💪",                 // se usa si photo está vacío
+    label:       "Tu entrenador",
+    name:        "Hola, soy Leo de ALLFIT",
+    bio1:        "Soy entrenador especializado en hipertrofia y transformación física para hombres mayores de 25 años. Sé lo que es querer cambiar tu cuerpo y no saber por dónde empezar, o peor — empezar mil veces y no llegar a ningún lado.",
+    bio2:        "Trabajo con planes de entrenamiento y nutrición completamente personalizados, seguimiento semanal y acceso directo conmigo. Sin templates genéricos. Sin excusas.",
+    tags:        ["Hipertrofia", "Nutrición deportiva", "Fuerza", "+50 alumnos transformados"],
+  },
+
+  // ── CÓMO FUNCIONA ──────────────────────────────────────────
+  steps: [
+    { n: "01", title: "Completás el formulario",    desc: "Contame tu situación actual, objetivos y disponibilidad. Me permite entender si puedo ayudarte." },
+    { n: "02", title: "Hacemos una llamada inicial", desc: "Charlamos 20 minutos para entender tu caso y definir el plan. Sin compromiso." },
+    { n: "03", title: "Arrancás con tu plan",        desc: "Recibís tu rutina + plan de nutrición personalizados y empezamos el seguimiento semanal." },
+  ],
+
+  // ── CASOS DE ÉXITO / TESTIMONIOS ───────────────────────────
+  // photo: URL de imagen (antes/después, retrato, etc.) — vacío = emoji
+  testimonials: [
+    {
+      photo:  "",
+      emoji:  "🏋️",
+      name:   "Martín, 28 años",
+      result: "+8 kg de músculo en 5 meses",
+      quote:  "\"Llevaba 2 años yendo al gym sin resultados. Con Leo en 5 meses cambié completamente. El seguimiento es otro nivel.\"",
+    },
+    {
+      photo:  "",
+      emoji:  "💪",
+      name:   "Facundo, 32 años",
+      result: "Bajó 12% de grasa manteniendo músculo",
+      quote:  "\"Lo que más me sorprendió fue la nutrición. Nunca pensé que comer bien podía ser así de simple con el plan correcto.\"",
+    },
+    {
+      photo:  "",
+      emoji:  "🔥",
+      name:   "Diego, 27 años",
+      result: "De cero a levantar 100kg en press",
+      quote:  "\"Empecé sin saber nada. La progresión fue real semana a semana. El acceso directo a Leo marca la diferencia.\"",
+    },
+  ],
+
+  // ── FAQ ────────────────────────────────────────────────────
+  faq: [
+    { q: "¿Necesito tener experiencia previa en el gym?",  a: "No. Trabajo con todos los niveles, desde principiantes hasta intermedios. El plan se adapta exactamente a donde estás hoy." },
+    { q: "¿Cuántas veces por semana tengo que entrenar?",  a: "Según tu disponibilidad. Diseño planes de 3, 4 o 5 días. Lo importante es la consistencia, no la cantidad." },
+    { q: "¿Qué incluye el seguimiento semanal?",           a: "Revisión de progreso, ajuste de cargas, feedback de tu nutrición y acceso directo por WhatsApp para cualquier consulta." },
+    { q: "¿Puedo entrenar en casa o solo en gym?",         a: "Los dos. Armo planes para gym y para casa con el equipamiento que tengas disponible." },
+    { q: "¿Cuánto tarda en verse resultados?",             a: "Los primeros cambios se notan entre 4 y 6 semanas. Resultados sólidos y medibles entre los 3 y 5 meses según el punto de partida." },
+  ],
+
+  // ── FORMULARIO ─────────────────────────────────────────────
+  form: {
+    title:   "Quiero empezar",
+    note:    "Completá este formulario y te contacto en menos de 24 horas.",
+    urgency: "Cupos limitados.",
+    cta:     "Quiero mi plan personalizado →",
+    fine:    "Sin spam. Te contacto solo para hablar de tu caso.",
+    // Mensaje que se arma en WhatsApp al enviar
+    waIntro: "Hola Leo! Completé el formulario de ALLFIT.",
+  },
+
+  // ── AÑO DEL COPYRIGHT ──────────────────────────────────────
+  year: "2025",
+}
+</script>
+<!-- ============================================================
+  FIN DE CONFIGURACIÓN — no hace falta tocar nada abajo
+================================================================ -->
+
+<!-- NAV -->
+<nav id="nav" class="sticky top-0 z-50 shadow-md"></nav>
+
+<!-- HERO -->
+<section id="hero" class="text-white py-20 px-5"></section>
+
+<!-- PAIN POINTS -->
+<section id="pain" class="py-16 px-5 bg-gray-50">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">¿Te suena familiar?</h2>
+    <p class="text-center text-gray-500 mb-10">Si dijiste sí a alguna de estas, estás en el lugar correcto.</p>
+    <div id="painGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-4"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="py-16 px-5 bg-white">
+  <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-12">
+    <div id="aboutPhoto" class="flex-shrink-0"></div>
+    <div id="aboutText"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="steps" class="py-16 px-5">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">Así funciona</h2>
+    <p class="text-center text-gray-500 mb-12">Simple. Sin vueltas.</p>
+    <div id="stepsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="py-16 px-5 bg-white">
+  <div class="max-w-4xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">Resultados reales</h2>
+    <p class="text-center text-gray-500 mb-12">Hombres como vos que eligieron dejar de improvisar.</p>
+    <div id="testimonialsGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faqSection" class="py-16 px-5 bg-gray-50">
+  <div class="max-w-3xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900">Preguntas frecuentes</h2>
+    <p class="text-center text-gray-500 mb-10">Todo lo que querés saber antes de arrancar.</p>
+    <div id="faqList" class="space-y-3"></div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section id="formulario" class="py-16 px-5 bg-white">
+  <div class="max-w-xl mx-auto">
+    <h2 id="formTitle" class="text-3xl md:text-4xl font-black text-center mb-3 text-gray-900"></h2>
+    <p id="formNote" class="text-center text-gray-500 mb-10"></p>
+    <form id="mainForm" onsubmit="submitForm(event)" class="space-y-4">
+      <div>
+        <label class="block text-sm font-bold mb-1 text-gray-700">Nombre completo *</label>
+        <input name="name" required placeholder="Tu nombre" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-bold mb-1 text-gray-700">Edad *</label>
+          <input name="age" required type="number" min="18" max="65" placeholder="25" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-sm font-bold mb-1 text-gray-700">Días disponibles/sem *</label>
+          <select name="days" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <option value="">Seleccioná</option>
+            <option>3 días</option><option>4 días</option><option>5 días</option><option>6+ días</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-bold mb-1 text-gray-700">¿Cuánta experiencia tenés? *</label>
+        <select name="experience" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Seleccioná</option>
+          <option>Ninguna — empiezo de cero</option>
+          <option>Menos de 1 año</option>
+          <option>1 a 3 años</option>
+          <option>Más de 3 años</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-bold mb-1 text-gray-700">¿Cuál es tu objetivo principal? *</label>
+        <select name="goal" required class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Seleccioná</option>
+          <option>Ganar masa muscular</option>
+          <option>Ganar músculo y perder grasa</option>
+          <option>Mejorar fuerza y rendimiento</option>
+          <option>Definición manteniendo músculo</option>
+        </select>
+      </div>
+      <div>
+        <label class="block text-sm font-bold mb-1 text-gray-700">¿Cuál es tu mayor obstáculo hoy? *</label>
+        <textarea name="obstacle" required rows="3" placeholder="Ej: no sé qué comer, no tengo constancia, no veo resultados..." class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"></textarea>
+      </div>
+      <div>
+        <label class="block text-sm font-bold mb-1 text-gray-700">WhatsApp *</label>
+        <input name="phone" required placeholder="+54 9 351 000 0000" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+      </div>
+      <button id="formCta" type="submit" class="w-full text-white font-black text-lg py-4 rounded-xl hover:opacity-90 transition shadow-lg"></button>
+      <p id="formFine" class="text-center text-xs text-gray-400"></p>
+    </form>
+    <div id="successMsg" class="hidden rounded-2xl p-8 text-center">
+      <div class="text-5xl mb-4">✅</div>
+      <h3 class="text-xl font-black text-gray-900 mb-2">¡Listo! Te redirigí a WhatsApp.</h3>
+      <p id="successNote" class="text-gray-600"></p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer" class="py-8 px-5 text-white text-center"></footer>
+
+<!-- ── RENDER ENGINE ─────────────────────────────────────────────────────── -->
+<script>
+(function () {
+  const C = CONFIG
+  const B = C.brand.color
+  const BD = C.brand.colorDark
+
+  // helpers
+  const $ = id => document.getElementById(id)
+  const el = (tag, html, cls, style) => {
+    const e = document.createElement(tag)
+    if (html)  e.innerHTML = html
+    if (cls)   e.className = cls
+    if (style) e.style.cssText = style
+    return e
+  }
+
+  // ── SEO
+  document.title = C.seo.title
+  $('pageTitle').textContent = C.seo.title
+  $('pageDesc').setAttribute('content', C.seo.description)
+
+  // ── NAV
+  const waBtn = C.contact.whatsapp
+    ? `<a href="https://wa.me/${C.contact.whatsapp}" target="_blank"
+         class="flex items-center gap-1.5 bg-green-500 hover:bg-green-600 text-white text-sm font-semibold px-3 sm:px-4 py-2 rounded-full transition">
+         <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+         WhatsApp</a>` : ''
+
+  $('nav').style.background = B
+  $('nav').innerHTML = `
+    <div class="max-w-5xl mx-auto px-5 py-3 flex items-center justify-between">
+      <span class="text-white text-2xl font-black tracking-tight">${C.brand.name.slice(0,-3)}<span style="opacity:.6">${C.brand.name.slice(-3)}</span></span>
+      <div class="flex gap-2 sm:gap-3">
+        ${waBtn}
+        <a href="https://instagram.com/${C.contact.instagram}" target="_blank"
+           class="flex items-center gap-1.5 text-white text-sm font-semibold px-3 sm:px-4 py-2 rounded-full transition" style="background:rgba(255,255,255,0.15)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          Instagram</a>
+      </div>
+    </div>`
+
+  // ── HERO
+  $('hero').style.background = `linear-gradient(135deg,${B} 0%,${BD} 100%)`
+  $('hero').innerHTML = `
+    <div class="max-w-3xl mx-auto text-center">
+      <span class="inline-block text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6" style="background:rgba(255,255,255,0.15)">${C.hero.badge}</span>
+      <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+        ${C.hero.headline}<br><span style="color:#93c5fd">${C.hero.subline}</span>
+      </h1>
+      <p class="text-lg md:text-xl mb-10 leading-relaxed max-w-xl mx-auto" style="color:#bfdbfe">${C.hero.body}</p>
+      <a href="#formulario" class="inline-block bg-white font-black text-lg px-10 py-4 rounded-xl shadow-xl hover:shadow-2xl transition-all" style="color:${B}">${C.hero.cta}</a>
+      <p class="text-sm mt-4" style="color:#93c5fd">${C.hero.ctaNote}</p>
+    </div>`
+
+  // ── PAIN POINTS
+  $('painGrid').innerHTML = C.painPoints.map(p =>
+    `<div class="flex items-start gap-3 bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+       <span class="text-2xl">${p.icon}</span>
+       <p class="font-medium text-gray-700 leading-snug">${p.text}</p>
+     </div>`
+  ).join('')
+
+  // ── ABOUT
+  const photoHtml = C.about.photo
+    ? `<img src="${C.about.photo}" alt="${C.about.name}" class="w-52 h-52 rounded-2xl object-cover" style="border:3px solid ${B}">`
+    : `<div class="w-52 h-52 rounded-2xl flex items-center justify-center text-7xl" style="background:${B}15;border:3px solid ${B}">${C.about.photoEmoji}</div>`
+  $('aboutPhoto').innerHTML = photoHtml
+  $('aboutText').innerHTML = `
+    <span class="text-sm font-bold uppercase tracking-widest" style="color:${B}">${C.about.label}</span>
+    <h2 class="text-3xl md:text-4xl font-black mt-1 mb-4 text-gray-900">${C.about.name}</h2>
+    <p class="text-gray-600 leading-relaxed mb-4">${C.about.bio1}</p>
+    <p class="text-gray-600 leading-relaxed mb-6">${C.about.bio2}</p>
+    <div class="flex flex-wrap gap-3">${C.about.tags.map(t =>
+      `<span class="tag" style="background:${B}15;color:${B}">${t}</span>`).join('')}</div>`
+
+  // ── STEPS
+  $('steps').style.background = `${B}0d`
+  $('stepsGrid').innerHTML = C.steps.map(s =>
+    `<div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 text-center">
+       <div class="w-12 h-12 rounded-full flex items-center justify-center text-lg font-black mx-auto mb-4 text-white" style="background:${B}">${s.n}</div>
+       <h3 class="font-black text-gray-900 text-lg mb-2">${s.title}</h3>
+       <p class="text-gray-500 text-sm leading-relaxed">${s.desc}</p>
+     </div>`
+  ).join('')
+
+  // ── TESTIMONIALS
+  $('testimonialsGrid').innerHTML = C.testimonials.map(t => {
+    const mediaHtml = t.photo
+      ? `<img src="${t.photo}" alt="${t.name}" class="w-full h-40 object-cover">`
+      : `<div class="h-32 flex items-center justify-center text-6xl" style="background:linear-gradient(135deg,${B},${BD})">${t.emoji}</div>`
+    return `
+      <div class="rounded-2xl overflow-hidden shadow-sm border border-gray-100">
+        ${mediaHtml}
+        <div class="p-5">
+          <p class="font-black text-gray-900">${t.name}</p>
+          <p class="text-sm font-bold mb-3" style="color:${B}">${t.result}</p>
+          <p class="text-gray-500 text-sm leading-relaxed italic">${t.quote}</p>
+        </div>
+      </div>`
+  }).join('')
+
+  // ── FAQ
+  $('faqList').innerHTML = C.faq.map((item, i) =>
+    `<div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+       <button onclick="toggleFaq(${i})" class="w-full flex items-center justify-between px-5 py-4 text-left">
+         <span class="font-bold text-gray-900">${item.q}</span>
+         <span class="faq-icon text-xl font-black ml-4 flex-shrink-0" style="color:${B}">+</span>
+       </button>
+       <div class="faq-answer px-5 pb-4"><p class="text-gray-600 leading-relaxed">${item.a}</p></div>
+     </div>`
+  ).join('')
+
+  // ── FORM
+  $('formTitle').textContent = C.form.title
+  $('formNote').innerHTML = `${C.form.note}<br><strong class="text-gray-700">${C.form.urgency}</strong>`
+  $('formCta').textContent = C.form.cta
+  $('formCta').style.background = B
+  $('formFine').textContent = C.form.fine
+  $('successNote').innerHTML = C.contact.whatsapp
+    ? `Si no se abrió el chat, escribime por Instagram: <strong>@${C.contact.instagram}</strong>`
+    : `Escribime por Instagram: <strong>@${C.contact.instagram}</strong>`
+  $('successMsg').style.background = `${B}10`
+  $('successMsg').style.border = `2px solid ${B}`
+
+  // ── FOOTER
+  $('footer').style.background = BD
+  const waFooter = C.contact.whatsapp
+    ? `<a href="https://wa.me/${C.contact.whatsapp}" target="_blank" class="text-sm transition hover:text-white" style="color:#93c5fd">WhatsApp</a><span style="color:#60a5fa">·</span>`
+    : ''
+  $('footer').innerHTML = `
+    <p class="font-black text-xl mb-1">${C.brand.name}</p>
+    <p class="text-sm mb-4" style="color:#bfdbfe">${C.brand.tagline}</p>
+    <div class="flex justify-center items-center gap-4">
+      ${waFooter}
+      <a href="https://instagram.com/${C.contact.instagram}" target="_blank" class="text-sm transition hover:text-white" style="color:#93c5fd">@${C.contact.instagram}</a>
+    </div>
+    <p class="text-xs mt-4" style="color:#60a5fa">© ${C.year} ${C.brand.name}. Todos los derechos reservados.</p>`
+})()
+
+// ── FAQ toggle
+function toggleFaq(i) {
+  const items = document.querySelectorAll('#faqList > div')
+  const answer = items[i].querySelector('.faq-answer')
+  const icon   = items[i].querySelector('.faq-icon')
+  const wasOpen = answer.classList.contains('open')
+  document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'))
+  document.querySelectorAll('.faq-icon').forEach(ic => ic.textContent = '+')
+  if (!wasOpen) { answer.classList.add('open'); icon.textContent = '−' }
+}
+
+// ── Form submit
+function submitForm(e) {
+  e.preventDefault()
+  const C = CONFIG
+  const fd = new FormData(e.target)
+  const msg = encodeURIComponent(
+    C.form.waIntro + '\n\n' +
+    '*Nombre:* '      + fd.get('name')       + '\n' +
+    '*Edad:* '        + fd.get('age')         + '\n' +
+    '*Experiencia:* ' + fd.get('experience')  + '\n' +
+    '*Objetivo:* '    + fd.get('goal')        + '\n' +
+    '*Días:* '        + fd.get('days')        + '\n' +
+    '*Obstáculo:* '   + fd.get('obstacle')    + '\n' +
+    '*Teléfono:* '    + fd.get('phone')
+  )
+  if (C.contact.whatsapp) {
+    window.open('https://wa.me/' + C.contact.whatsapp + '?text=' + msg, '_blank')
+  }
+  document.getElementById('mainForm').classList.add('hidden')
+  document.getElementById('successMsg').classList.remove('hidden')
+}
+</script>
+
+</body>
+</html>
